@@ -6,7 +6,6 @@ const user = ref(projectAuth.currentUser);
 
 // Mỗi khi stage thay đổi (login/logout/update..)
 projectAuth.onAuthStateChanged((_user) => {
-  console.log("Current user is: ", _user);
   user.value = _user;
 });
 

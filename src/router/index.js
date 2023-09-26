@@ -11,10 +11,21 @@ import { projectAuth } from "@/firebase/config";
 */
 const requireAuth = (to, from, next) => {
   const user = projectAuth.currentUser;
-  console.log("user in auth guard: ", user);
 
+  // If not auth => redirect to welcome
   if (!user) {
     next({ name: "welcome" });
+  } else {
+    next();
+  }
+};
+
+const requireNoAuth = (to, from, next) => {
+  const user = projectAuth.currentUser;
+
+  // If auth => redirect to chatroom
+  if (user) {
+    next({ name: "chatroom" });
   } else {
     next();
   }
@@ -25,6 +36,7 @@ const routes = [
     path: "/",
     name: "welcome",
     component: Welcome,
+    beforeEnter: requireNoAuth,
   },
   {
     path: "/chatroom",
